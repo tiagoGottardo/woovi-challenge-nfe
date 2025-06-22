@@ -1,0 +1,29 @@
+{
+  "name": "nfe",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --no-warnings src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "koa": "^3.0.0",
+    "koa-body": "^6.0.1",
+    "koa-static": "^5.0.0",
+    "xml2js": "^0.6.2",
+    "xsd-schema-validator": "^0.11.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.15.0",
+    "@types/koa-static": "^4.0.4",
+    "@types/koa__router": "^12.0.4",
+    "@types/xml2js": "^0.4.14"
+  }
+}
