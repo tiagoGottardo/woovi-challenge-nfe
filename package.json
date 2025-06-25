@@ -1,0 +1,15 @@
+{
+  "name": "woovi-challenge-nfe",
+  "version": "1.0.0",
+  "description": "Woovi code challenge: NF-e system integration",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tiagoGottardo",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.0.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
