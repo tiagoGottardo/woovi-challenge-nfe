@@ -1,30 +1,23 @@
 import axios from 'axios';
-import { Builder } from 'xml2js';
 
 async function sendSoapRequest() {
   const url = 'http://localhost:3000/soap';
 
-  const builder = new Builder({ headless: true });
-  const soapRequestEnvelope = {
-    'soap:Envelope': {
-      '$': {
-        'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/',
-        'xmlns:tns': 'http://example.com/myservice'
-      },
-      'soap:Body': {
-        'tns:something': {}
-      }
-    }
-  }
-
-  const xmlRequestBody = builder.buildObject(soapRequestEnvelope);
-
+  const xml = `
+    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Header/>
+      <soap:Body>
+        <consStatServ xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+          <tpAmb>1</tpAmb>
+          <cUF>35</cUF>
+          <xServ>STATUS</xServ>
+        </consStatServ>
+      </soap:Body>
+    </soap:Envelope>
+  `
   try {
-    const response = await axios.post(url, xmlRequestBody, {
-      headers: {
-        'Content-Type': 'text/xml',
-        'SOAPAction': 'http://example.com/myservice/addNumbers'
-      }
+    const response = await axios.post(url, xml, {
+      headers: { 'Content-Type': 'text/xml' }
     });
 
     console.log('SOAP Response Status:', response.status);
