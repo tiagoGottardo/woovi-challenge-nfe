@@ -1,30 +1,10 @@
-import Koa from 'koa'
-import Router from '@koa/router'
-import { koaBody } from 'koa-body'
 import { parseStringPromise, Builder } from 'xml2js'
-import serve from 'koa-static'
 import fs from 'node:fs'
 import path from 'path'
 import libxmljs from 'libxmljs2'
+import { ParameterizedContext } from 'koa'
 
-import { fileURLToPath } from 'url'
-
-const PORT = 3000
-
-const app = new Koa()
-const router = new Router()
-
-const wsdlPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '../wsdl/')
-app.use(serve(wsdlPath))
-
-app.use(koaBody({
-  text: true,
-  json: false,
-  urlencoded: false,
-  multipart: false,
-}))
-
-router.post('/soap', async (ctx) => {
+const nfeStatusServico = async (ctx: ParameterizedContext) => {
   const initialSoapXmlString = ctx.request.body as string
   let fullSoapXmlString = initialSoapXmlString.trimStart();
 
@@ -48,7 +28,8 @@ router.post('/soap', async (ctx) => {
     const builder = new Builder({ headless: true });
     const consStatServXmlString = builder.buildObject({ 'consStatServ': consStatServObject });
 
-    const xsdSchemasPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'xsd')
+    const xsdSchemasPath = path.join(__dirname, '..', '..', 'xsd');
+
 
     process.chdir(xsdSchemasPath)
 
@@ -59,7 +40,7 @@ router.post('/soap', async (ctx) => {
     let xmlDoc = libxmljs.parseXmlString(consStatServXmlString)
     let xsdDoc = libxmljs.parseXmlString(xsdString)
 
-    let result = xmlDoc.validate(xsdDoc)
+    xmlDoc.validate(xsdDoc)
 
     // const xmlObject = await parseStringPromise(consStatServXmlString)
 
@@ -103,8 +84,6 @@ router.post('/soap', async (ctx) => {
       </soap:Envelope>
     `
   }
-})
+}
 
-app.use(router.routes()).use(router.allowedMethods())
-
-app.listen(PORT, () => { console.log(`Server running on http://localhost:${PORT}`) })
+export default nfeStatusServico
