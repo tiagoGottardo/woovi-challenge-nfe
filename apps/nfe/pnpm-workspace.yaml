@@ -1,2 +1,4 @@
-ignoredBuiltDependencies:
-  - xsd-schema-validator
+onlyBuiltDependencies:
+  - libxml
+  - libxmljs
+  - libxmljs2

@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --no-warnings src/index.ts"
+    "dev": "node --watch --no-warnings src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +17,8 @@
     "koa": "^3.0.0",
     "koa-body": "^6.0.1",
     "koa-static": "^5.0.0",
-    "xml2js": "^0.6.2",
-    "xsd-schema-validator": "^0.11.0"
+    "libxmljs2": "^0.37.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",

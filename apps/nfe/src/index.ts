@@ -3,9 +3,10 @@ import Router from '@koa/router'
 import { koaBody } from 'koa-body'
 import { parseStringPromise, Builder } from 'xml2js'
 import serve from 'koa-static'
+import fs from 'node:fs'
 import path from 'path'
+import libxmljs from 'libxmljs2'
 
-import validator from 'xsd-schema-validator'
 import { fileURLToPath } from 'url'
 
 const PORT = 3000
@@ -24,25 +25,43 @@ app.use(koaBody({
 }))
 
 router.post('/soap', async (ctx) => {
-  const requestBody = ctx.request.body
+  const initialSoapXmlString = ctx.request.body as string
+  let fullSoapXmlString = initialSoapXmlString.trimStart();
 
-  if (!requestBody || typeof requestBody !== 'string' || requestBody.trim().length === 0) {
-    console.warn('Received an empty or non-string request body:', requestBody)
-    ctx.status = 400
-    ctx.body = 'Request body invalid.'
+  if (!fullSoapXmlString) {
+    ctx.status = 500
+    ctx.body = 'Corpo da requisição XML vazio.'
     return
   }
 
   try {
-    const mainXsdPath = path.join(wsdlPath, 's.wsdl')
+    const parsedSoapObject = await parseStringPromise(fullSoapXmlString, { explicitArray: false });
 
-    console.log(`Attempting to validate XML against: ${mainXsdPath}`)
-    let result = await validator.validateXML(requestBody, mainXsdPath)
-    console.log(result)
-    console.log('XML Validated successfully against schema.')
+    if (!parsedSoapObject['soap:Envelope']['soap:Body']['consStatServ']) {
+      console.warn("Could not find 'consStatServ' element in SOAP body.");
+      ctx.status = 400
+      ctx.body = "Formato da requisição SOAP inválido: elemento consStatServ não encontrado."
+      return
+    }
 
-    const xmlObject = await parseStringPromise(requestBody)
-    console.log('Req parsed:', JSON.stringify(xmlObject, null, 2))
+    const consStatServObject = parsedSoapObject['soap:Envelope']['soap:Body']['consStatServ'];
+    const builder = new Builder({ headless: true });
+    const consStatServXmlString = builder.buildObject({ 'consStatServ': consStatServObject });
+
+    const xsdSchemasPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'xsd')
+
+    process.chdir(xsdSchemasPath)
+
+    const xsdString = fs.readFileSync('consStatServ_v4.00.xsd', 'utf8')
+
+    console.log(consStatServXmlString)
+
+    let xmlDoc = libxmljs.parseXmlString(consStatServXmlString)
+    let xsdDoc = libxmljs.parseXmlString(xsdString)
+
+    let result = xmlDoc.validate(xsdDoc)
+
+    // const xmlObject = await parseStringPromise(consStatServXmlString)
 
     let responseBodyContent = {
       'tns:something': {
@@ -51,7 +70,6 @@ router.post('/soap', async (ctx) => {
       }
     }
 
-    const builder = new Builder({ headless: true })
     const soapResponseEnvelope = {
       'soap:Envelope': {
         '$': {
