@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function sendSoapRequest() {
-  const url = 'http://localhost:3000/soap';
+  const url = 'http://localhost:3000/ws/nfestatusservico4';
 
   const xml = `
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">

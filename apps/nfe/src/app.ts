@@ -4,9 +4,6 @@ import router from './routes'
 
 const app = new Koa()
 
-// const wsdlPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '../wsdl/')
-// app.use(serve(wsdlPath))
-
 app.use(koaBody({
   text: true,
   json: false,
@@ -15,6 +12,5 @@ app.use(koaBody({
 }))
 
 app.use(router.routes()).use(router.allowedMethods())
-
 
 export default app

@@ -4,7 +4,7 @@ import path from 'path'
 import libxmljs from 'libxmljs2'
 import { ParameterizedContext } from 'koa'
 
-const nfeStatusServico = async (ctx: ParameterizedContext) => {
+const nfeStatusService = async (ctx: ParameterizedContext) => {
   const initialSoapXmlString = ctx.request.body as string
   let fullSoapXmlString = initialSoapXmlString.trimStart();
 
@@ -86,4 +86,4 @@ const nfeStatusServico = async (ctx: ParameterizedContext) => {
   }
 }
 
-export default nfeStatusServico
+export default nfeStatusService
