@@ -1,41 +1,41 @@
-import axios from 'axios';
+import * as soap from 'soap';
+
+const args = {
+  tpAmb: '1',
+  cUF: '41',
+  xServ: 'STATUS'
+};
+
+const options = {
+  overrideRootElement: {
+    namespace: 'nfe',
+    xmlnsAttributes: [{
+      name: 'xmlns',
+      value: 'http://www.portalfiscal.inf.br/nfe'
+    }],
+  },
+  ignoredNamespaces: {
+    namespaces: ['nfe']
+  }
+};
 
 async function sendSoapRequest() {
-  const url = 'http://localhost:3000/ws/nfestatusservico4';
+  const url = 'http://localhost:3000/ws/nfestatusservico4?wsdl';
 
-  const xml = `
-    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Header/>
-      <soap:Body>
-        <consStatServ xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
-          <tpAmb>1</tpAmb>
-          <cUF>35</cUF>
-          <xServ>STATUS</xServ>
-        </consStatServ>
-      </soap:Body>
-    </soap:Envelope>
-  `
-  try {
-    const response = await axios.post(url, xml, {
-      headers: { 'Content-Type': 'text/xml' }
-    });
+  const client = await soap.createClientAsync(url, options)
 
-    console.log('SOAP Response Status:', response.status);
-    console.log('SOAP Response Headers:', response.headers);
-    console.log('SOAP Response Data (XML):', response.data);
+  client.nfeStatusServicoNF(args, (err: Error | null, result: any, rawResponse: string) => {
+    console.log(rawResponse)
 
-  } catch (error: any) {
-    if (error.response) {
-      console.error('SOAP Request Error Status:', error.response.status);
-      console.error('SOAP Request Error Headers:', error.response.headers);
-      console.error('SOAP Request Error Data (XML):', error.response.data);
-    } else if (error.request) {
-      console.error('SOAP Request Error: No response received from server.');
-      console.error(error.request);
-    } else {
-      console.error('Error sending SOAP request:', error.message);
+    if (err) {
+      console.error('Erro ao chamar o método nfeStatusServicoNF', err);
+      return;
     }
-  }
+
+
+    console.log('Resposta do serviço NFeStatusServico:', result.status);
+  });
+
 }
 
 sendSoapRequest();
