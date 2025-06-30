@@ -1,32 +1,54 @@
-const nfeStatusServicoNF = (args: any) => {
-  console.log('Received nfeStatusServicoNF request:');
-  console.log('Arguments:', JSON.stringify(args, null, 2));
+const versao = "4.00";
+const verAplic = "SVRS20230101";
+const nfeServerUF = '41';
+const ambiente = '1';
 
-  const consStatServ = args.nfeDadosMsg;
+interface NFeStatusServicoOutput {
+  versao: string;
+  tpAmb: '1' | '2';
+  verAplic: string;
+  cStat: '107' | '108' | '999' | string;
+  xMotivo: string;
+  cUF: string;
+  dhRecbto: string;
+  tMed?: string;
+  xObs?: string;
+}
 
-  let cStat = '107';
-  let xMotivo = 'Servico em Operacao';
-  let dhRetorno = new Date().toISOString().slice(0, 19) + '-03:00';
+interface NFeStatusServicoInput {
+  cUF: string;
+  tpAmb: '1' | '2';
+  xServ: 'STATUS';
+}
 
-  if (consStatServ) {
-    console.log('tpAmb:', consStatServ.tpAmb);
-    console.log('cUF:', consStatServ.cUF);
-    console.log('xServ:', consStatServ.xServ);
-    console.log('versao:', consStatServ.versao);
-
-    if (consStatServ.tpAmb === '2') {
-      cStat = '100';
-      xMotivo = 'Autorizado o uso da NF-e';
-    }
+const nfeStatusServicoNF = (args: NFeStatusServicoInput): NFeStatusServicoOutput => {
+  const result: NFeStatusServicoOutput = {
+    cStat: "999",
+    xMotivo: "Não inicializado",
+    versao,
+    verAplic,
+    tpAmb: args.tpAmb,
+    cUF: args.cUF,
+    dhRecbto: new Date().toISOString()
   }
 
-  const result = {
-    nfeResultMsg: {
-      cStat: cStat,
-      xMotivo: xMotivo,
-      dhRetorno: dhRetorno
-    }
+  if (!args) return result
+
+
+  if (args.tpAmb !== ambiente) {
+    result.cStat = '252';
+    result.xMotivo = 'Ambiente informado diverge do Ambiente  de recebimento';
+    return result
   }
+
+  if (args.cUF !== nfeServerUF) {
+    result.cStat = '289';
+    result.xMotivo = 'Código da UF informada diverge da UF  solicitada';
+    return result
+  }
+
+  result.cStat = '107';
+  result.xMotivo = 'Servico em Operacao';
 
   return result
 }
