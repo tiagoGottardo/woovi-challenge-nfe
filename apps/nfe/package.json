@@ -9,6 +9,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@expo/pkcs12": "^0.2.4",
     "@koa/router": "^13.1.0",
     "koa": "^3.0.0",
     "koa-body": "^6.0.1",
@@ -16,6 +17,7 @@
     "koa-send": "^5.0.1",
     "koa-static": "^5.0.0",
     "libxmljs2": "^0.37.0",
+    "p12-pem": "^1.0.5",
     "soap": "^1.1.12",
     "xml2js": "^0.6.2"
   },
