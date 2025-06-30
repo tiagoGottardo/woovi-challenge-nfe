@@ -4,6 +4,7 @@ import { nfeRetAutorizacaoService } from "./nfeRetAutorizacaoService"
 import { nfeInutilizacaoService } from "./nfeInutilizacaoService"
 import { nfeConsultaProtocoloService } from "./nfeConsultaProtocoloService"
 import { nfeRecepcaoEventoService } from "./nfeRecepcaoEvento"
+import { nfeConsultaCadastroService } from "./nfeConsultaCadastroService"
 
 interface WebService {
   name: string
@@ -17,6 +18,7 @@ const webServices: WebService[] = [
   { name: "nfeinutilizacao", service: nfeInutilizacaoService },
   { name: "nfeconsultaprotocolo", service: nfeConsultaProtocoloService },
   { name: "nferecepcaoevento", service: nfeRecepcaoEventoService },
+  { name: "nfeconsultacadastro", service: nfeConsultaCadastroService },
 ]
 
 export {
