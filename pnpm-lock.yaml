@@ -41,6 +41,9 @@ importers:
       libxmljs2:
         specifier: ^0.37.0
         version: 0.37.0
+      soap:
+        specifier: ^1.1.12
+        version: 1.1.12
       xml2js:
         specifier: ^0.6.2
         version: 0.6.2

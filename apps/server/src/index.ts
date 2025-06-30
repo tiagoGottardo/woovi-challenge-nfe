@@ -16,7 +16,7 @@ const options = {
   },
   ignoredNamespaces: {
     namespaces: ['nfe']
-  }
+  },
 };
 
 async function sendSoapRequest() {
@@ -24,16 +24,13 @@ async function sendSoapRequest() {
 
   const client = await soap.createClientAsync(url, options)
 
-  client.nfeStatusServicoNF(args, (err: Error | null, result: any, rawResponse: string) => {
-    console.log(rawResponse)
-
+  client.nfeStatusServicoNF(args, (err: any, result: any) => {
     if (err) {
-      console.error('Erro ao chamar o método nfeStatusServicoNF', err);
+      console.error('Erro ao chamar o método nfeStatusServicoNF', err.response.status);
       return;
     }
 
-
-    console.log('Resposta do serviço NFeStatusServico:', result.status);
+    console.log('NFeStatusServico response:', result);
   });
 
 }
