@@ -12,6 +12,7 @@
     "@koa/router": "^13.1.0",
     "koa": "^3.0.0",
     "koa-body": "^6.0.1",
+    "koa-mount": "^4.2.0",
     "koa-send": "^5.0.1",
     "koa-static": "^5.0.0",
     "libxmljs2": "^0.37.0",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",
+    "@types/koa-mount": "^4.0.5",
     "@types/koa-send": "^4.1.6",
     "@types/koa-static": "^4.0.4",
     "@types/koa__router": "^12.0.4",

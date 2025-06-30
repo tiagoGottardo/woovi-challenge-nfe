@@ -5,44 +5,23 @@ import libxmljs from 'libxmljs2'
 import { ParameterizedContext } from 'koa'
 
 const nfeStatusService = async (ctx: ParameterizedContext) => {
-  const initialSoapXmlString = ctx.request.body as string
-  let fullSoapXmlString = initialSoapXmlString.trimStart();
-
-  if (!fullSoapXmlString) {
-    ctx.status = 500
-    ctx.body = 'Corpo da requisição XML vazio.'
-    return
-  }
+  const requestBody = ctx.request.body as string
 
   try {
-    const parsedSoapObject = await parseStringPromise(fullSoapXmlString, { explicitArray: false });
-
-    if (!parsedSoapObject['soap:Envelope']['soap:Body']['consStatServ']) {
-      console.warn("Could not find 'consStatServ' element in SOAP body.");
-      ctx.status = 400
-      ctx.body = "Formato da requisição SOAP inválido: elemento consStatServ não encontrado."
-      return
-    }
-
-    const consStatServObject = parsedSoapObject['soap:Envelope']['soap:Body']['consStatServ'];
-    const builder = new Builder({ headless: true });
-    const consStatServXmlString = builder.buildObject({ 'consStatServ': consStatServObject });
-
     const xsdSchemasPath = path.join(__dirname, '..', '..', 'xsd');
-
 
     process.chdir(xsdSchemasPath)
 
     const xsdString = fs.readFileSync('consStatServ_v4.00.xsd', 'utf8')
 
-    console.log(consStatServXmlString)
-
-    let xmlDoc = libxmljs.parseXmlString(consStatServXmlString)
+    let xmlDoc = libxmljs.parseXmlString(requestBody)
     let xsdDoc = libxmljs.parseXmlString(xsdString)
 
-    xmlDoc.validate(xsdDoc)
+    const validationResult = xmlDoc.validate(xsdDoc)
 
-    // const xmlObject = await parseStringPromise(consStatServXmlString)
+    const xmlObject = await parseStringPromise(requestBody)
+
+    console.log(xmlObject['consStatServ']['tpAmb'][0])
 
     let responseBodyContent = {
       'tns:something': {
@@ -61,6 +40,8 @@ const nfeStatusService = async (ctx: ParameterizedContext) => {
         'soap:Body': responseBodyContent
       }
     }
+
+    const builder = new Builder({ headless: true })
 
     const xmlResponse = builder.buildObject(soapResponseEnvelope)
 
