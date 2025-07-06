@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "tsc-watch --onSuccess \"pnpx ts-node src/index.ts\""
+    "dev": "tsc-watch --onSuccess \"pnpx ts-node src/server.ts\""
   },
   "license": "MIT",
   "dependencies": {
@@ -17,7 +17,8 @@
     "mongoose": "^8.16.1",
     "p12-pem": "^1.0.5",
     "soap": "^1.1.12",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
