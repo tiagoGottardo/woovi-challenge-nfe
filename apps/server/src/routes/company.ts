@@ -1,22 +1,43 @@
 import { ParameterizedContext } from "koa";
 import Company from "../schemas/Company";
+import { companyZodSchema } from "../zod/companyZodSchema";
 
-const companyRoute = (ctx: ParameterizedContext) => {
-  const { name, cnpj, address, city, state, zipCode } = ctx.request.body;
+const companyRoute = async (ctx: ParameterizedContext) => {
+  const requestBody = ctx.request.body;
 
-  if (!name || !cnpj || !address || !city || !state || !zipCode) {
+  const parseResult = companyZodSchema.safeParse(requestBody)
+
+  if (parseResult.error) {
     ctx.status = 400;
-    ctx.body = { message: 'All fields are required: name, cnpj, address, city, state, zipCode' }
-    return;
+    ctx.body = {
+      message: 'Company could not be registered.',
+      errors: parseResult.error.issues.map(i => i.message)
+    }
+
+    return
   }
 
-  const newCompany = new Company({ name, cnpj, address, city, state, zipCode })
-  newCompany.save()
+  const oneUser = await Company.findOne({ cnpj: requestBody.cnpj });
+  if (oneUser) {
+    ctx.status = 400;
+    ctx.body = {
+      message: 'Company could not be registered.',
+      errors: ["Already exists one company with this cnpj."]
+    }
 
-  console.log('Registering company:', { name, cnpj, address, city, state, zipCode })
+    return
+  }
+
+  (new Company(requestBody)).save()
 
   ctx.status = 201;
-  ctx.body = { message: 'Company registered successfully', company: { name, cnpj } }
+  ctx.body = {
+    message: 'Company registered successfully',
+    company: {
+      name: requestBody.name,
+      cnpj: requestBody.cnpj
+    }
+  }
 }
 
 export { companyRoute }
