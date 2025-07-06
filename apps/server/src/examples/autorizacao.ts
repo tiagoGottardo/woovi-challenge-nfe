@@ -1,4 +1,4 @@
-import { sendSoapRequest } from './client'; // Ensure this path is correct
+import { sendSoapRequest } from './client';
 
 interface EnviNFeInput {
   idLote: string;
