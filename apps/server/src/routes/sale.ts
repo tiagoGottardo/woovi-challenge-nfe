@@ -16,7 +16,7 @@ const saleRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const { companyId, ...rest } = ctx.request.body
+  const { companyId, pixKey, ...rest } = ctx.request.body
 
   try {
     rest.items = await Promise.all(rest.items.map(async (item: any) => {
@@ -40,7 +40,8 @@ const saleRoute = async (ctx: ParameterizedContext) => {
   const sale = new Sale({
     companyId,
     items: rest.items,
-    totalAmount
+    totalAmount,
+    pixKey
   })
 
   sale.save()

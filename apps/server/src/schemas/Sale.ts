@@ -8,18 +8,20 @@ interface ISaleItem extends Document {
 }
 
 interface ISale extends Document {
-  companyId: mongoose.Schema.Types.ObjectId;
+  companyId: mongoose.Schema.Types.ObjectId
   // nfType: "NFe" | "NFCe";
-  buyer?: mongoose.Schema.Types.ObjectId;
-  items: ISaleItem[];
-  totalAmount: number;
-  status: "pending" | "approved" | "rejected" | "canceled";
-  createdAt: Date;
-  updatedAt: Date;
+  pixKey: string
+  buyer?: mongoose.Schema.Types.ObjectId
+  items: ISaleItem[]
+  totalAmount: number
+  status: "pending" | "approved" | "rejected" | "canceled"
+  createdAt: Date
+  updatedAt: Date
 }
 
 const SaleSchema: Schema = new Schema({
   companyId: { type: mongoose.Schema.Types.ObjectId, ref: "Company", required: true },
+  pixKey: { type: String, required: true },
   buyer: { type: mongoose.Schema.Types.ObjectId },
   items: [
     {
