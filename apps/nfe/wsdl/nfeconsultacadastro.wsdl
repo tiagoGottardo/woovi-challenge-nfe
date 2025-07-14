@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="NFeConsultaCadastroService"
+  targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaCadastro"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaCadastro"
+  xmlns:nfe="http://www.portalfiscal.inf.br/nfe"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.portalfiscal.inf.br/nfe">
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"
+        schemaLocation="../xsd/consCad_v2.00.xsd" />
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"
+        schemaLocation="../xsd/retConsCad_v2.00.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="consultaCadastroRequest">
+    <wsdl:part name="nfeDadosMsg" element="nfe:ConsCad" />
+  </wsdl:message>
+  <wsdl:message name="consultaCadastroResponse">
+    <wsdl:part name="nfeResultMsg" element="nfe:retConsCad" />
+  </wsdl:message>
+
+  <wsdl:portType name="NFeConsultaCadastroPortType">
+    <wsdl:operation name="consultaCadastro">
+      <wsdl:input message="tns:consultaCadastroRequest" />
+      <wsdl:output message="tns:consultaCadastroResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="NFeConsultaCadastroSoapBinding" type="tns:NFeConsultaCadastroPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="consultaCadastro">
+      <soap:operation
+        soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaCadastro/consultaCadastro" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="NFeConsultaCadastroService">
+    <wsdl:port name="NFeConsultaCadastroPort" binding="tns:NFeConsultaCadastroSoapBinding">
+      <soap:address
+        location="https://localhost:3000/ws/nfeconsultacadastro" />
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>
