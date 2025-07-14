@@ -1,5 +1,5 @@
 import * as soap from 'soap';
-import { soapOptions } from './config';
+import { soapOptions } from '../config';
 
 export const sendSoapRequest = async (url: string): Promise<any> => {
   try {

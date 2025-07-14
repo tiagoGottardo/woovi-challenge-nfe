@@ -22,7 +22,7 @@ interface RetEnviNFeOutput {
   protNFe?: any[];
 }
 
-interface NFeAutorizacaoLoteInput {
+export interface NFeAutorizacaoLoteInput {
   nfeDadosMsg: EnviNFeInput;
 }
 
@@ -50,9 +50,9 @@ const args: NFeAutorizacaoLoteInput = {
   }
 };
 
-export const nfe = async () => {
+export const nfe = async (url: string, args: NFeAutorizacaoLoteInput) => {
   const client = await sendSoapRequest(url);
-  const [result] = await client.nfeAutorizacaoLoteAsync(args as NFeAutorizacaoLoteInput) as [RetEnviNFeOutput];
+  const [result] = await client.nfeAutorizacaoLoteAsync(args) as [RetEnviNFeOutput];
 
-  console.log(result)
+  return result
 }

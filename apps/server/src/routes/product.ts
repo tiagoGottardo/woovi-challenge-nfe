@@ -17,8 +17,8 @@ const productRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const oneUser = await Product.findOne({ sku: requestBody.sku });
-  if (oneUser) {
+  const product = await Product.findOne({ sku: requestBody.sku });
+  if (product) {
     ctx.status = 400;
     ctx.body = {
       message: 'Product could not be registered.',
