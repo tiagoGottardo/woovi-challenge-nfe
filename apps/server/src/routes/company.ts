@@ -1,11 +1,11 @@
 import { ParameterizedContext } from "koa";
 import Company from "../schemas/Company";
-import { companyZodSchema } from "../zod/companyZodSchema";
+import { CompanyZodSchema } from "../zod/companyZodSchema";
 
 const companyRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body;
 
-  const parseResult = companyZodSchema.safeParse(requestBody)
+  const parseResult = CompanyZodSchema.safeParse(requestBody)
 
   if (parseResult.error) {
     ctx.status = 400;
@@ -17,7 +17,7 @@ const companyRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const oneUser = await Company.findOne({ cnpj: requestBody.cnpj });
+  const oneUser = await Company.findOne({ cnpj: requestBody.cnpj }); // TODO: by email
   if (oneUser) {
     ctx.status = 400;
     ctx.body = {
@@ -31,13 +31,7 @@ const companyRoute = async (ctx: ParameterizedContext) => {
   (new Company(requestBody)).save()
 
   ctx.status = 201;
-  ctx.body = {
-    message: 'Company registered successfully',
-    company: {
-      name: requestBody.name,
-      cnpj: requestBody.cnpj
-    }
-  }
+  ctx.body = { message: 'Company registered successfully' }
 }
 
 export { companyRoute }

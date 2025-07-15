@@ -1,11 +1,11 @@
 import { ParameterizedContext } from "koa";
 import Product from "../schemas/Product";
-import { productZodSchema } from "../zod/productZodSchema";
+import { ProductZodSchema } from "../zod/productZodSchema";
 
 const productRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body;
 
-  const parseResult = productZodSchema.safeParse(requestBody)
+  const parseResult = ProductZodSchema.safeParse(requestBody)
 
   if (parseResult.error) {
     ctx.status = 400;
