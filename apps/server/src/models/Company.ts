@@ -6,7 +6,6 @@ interface Address {
   neighborhood: string;
   cityCode: string;
   city: string;
-  stateCode: string;
   uf: string;
   zipCode: string;
 }
@@ -31,7 +30,6 @@ const AddressSchema: Schema = new Schema({
   neighborhood: { type: String, required: true },
   cityCode: { type: String, required: true },
   city: { type: String, required: true },
-  stateCode: { type: String, required: true },
   uf: { type: String, required: true },
   zipCode: { type: String, required: true },
 }, { _id: false });

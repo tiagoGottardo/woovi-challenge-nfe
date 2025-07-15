@@ -28,7 +28,7 @@ export const AddressZodSchema = z.object({
   zipCode: z.string({
     required_error: "Zip code is required.",
     invalid_type_error: "Zip code must be a string.",
-  }).regex(/^\d{5}-\d{3}$|^\d{8}$/, "Invalid zip code format. Use XXXXX-XXX or XXXXXXXX."),
+  }).regex(/^\d{8}$/, "Invalid zip code format. It should contain 8 digits only."),
 });
 
 export const CompanyZodSchema = z.object({
@@ -48,7 +48,7 @@ export const CompanyZodSchema = z.object({
   phone: z.string({
     required_error: "Phone number is required.",
     invalid_type_error: "Phone number must be a string.",
-  }).regex(/^\(\d{2}\)\s\d{4,5}-\d{4}$|^\d{10,11}$/, "Invalid phone number format."),
+  }).regex(/^\d{10,11}$/, "Invalid phone number format. It should contain 10 or 11 digits only."),
   stateSubscription: z.string({
     required_error: "State subscription is required.",
     invalid_type_error: "State subscription must be a string.",

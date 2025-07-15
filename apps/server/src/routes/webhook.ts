@@ -21,7 +21,7 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const accessKey = getAccessKey(company.address.stateCode, company.cnpj, company.nfceSerie, company.id)
+  const accessKey = getAccessKey(company.address.cityCode.slice(0, 2), company.cnpj, company.nfceSerie, company.id)
   if (!accessKey) {
     ctx.status = 500
     return
@@ -39,7 +39,7 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
             Id: fullKey,
             versao: '4.00',
             ide: {
-              cUF: company.address.stateCode,
+              cUF: company.address.cityCode.slice(0, 2),
               cNF: company.id,
               natOp: 'VENDA DE MERCADORIA ADQUIRIDA OU RECEBIDA DE TERCEIROS',
               mod: '65',

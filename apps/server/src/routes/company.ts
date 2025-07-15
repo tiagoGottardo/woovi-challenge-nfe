@@ -17,7 +17,7 @@ const companyRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const oneUser = await Company.findOne({ cnpj: requestBody.cnpj }); // TODO: by email
+  const oneUser = await Company.findOne({ cnpj: requestBody.cnpj });
   if (oneUser) {
     ctx.status = 400;
     ctx.body = {
