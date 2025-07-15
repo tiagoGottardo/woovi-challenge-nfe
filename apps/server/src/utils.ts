@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import qrcode from 'qrcode'
-import { ISaleItem } from './schemas/Sale'
-import Product from './schemas/Product'
+import { ISaleItem } from './models/Sale'
+import Product from './models/Product'
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret"
 

@@ -1,5 +1,5 @@
 import { ParameterizedContext } from "koa";
-import Company from "../schemas/Company";
+import Company from "../models/Company";
 import { CompanyZodSchema } from "../zod/companyZodSchema";
 
 const companyRoute = async (ctx: ParameterizedContext) => {

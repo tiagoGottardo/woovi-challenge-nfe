@@ -1,7 +1,7 @@
 import { nfe, NFeAutorizacaoLoteInput } from "../examples/autorizacao";
 import { ParameterizedContext } from "koa";
-import Sale from "../schemas/Sale";
-import Company from "../schemas/Company";
+import Sale from "../models/Sale";
+import Company from "../models/Company";
 import { getAccessKey, getDet } from "../utils";
 
 const pixWebhookRoute = async (ctx: ParameterizedContext) => {
@@ -107,7 +107,6 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   console.log(result)
 
   ctx.status = 200
-  ctx.body = { message: "Ok!" }
 }
 
 export {

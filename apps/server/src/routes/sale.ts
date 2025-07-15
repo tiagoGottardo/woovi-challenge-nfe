@@ -1,8 +1,8 @@
 import { ParameterizedContext } from "koa";
-import Sale from "../schemas/Sale";
+import Sale from "../models/Sale";
 import { SaleZodSchema } from "../zod/saleZodSchema";
-import Product from "../schemas/Product";
-import Company from "../schemas/Company";
+import Product from "../models/Product";
+import Company from "../models/Company";
 import { generateQrCode } from "../utils";
 
 const saleRoute = async (ctx: ParameterizedContext) => {
