@@ -23,10 +23,13 @@ export const verifyToken = (token: string): UserPayload | null => {
   }
 };
 
-export const getDet = async (items: ISaleItem[], interStateSale: boolean) => {
-  return items.map(async (e, i) => {
+export const getDetAndVTotTrib = async (items: ISaleItem[], interStateSale: boolean) => {
+  let vTotTrib = 0;
+  const det = items.map(async (e, i) => {
     const product = await Product.findById(e.productId)
     if (!product) throw new Error("Product not found!")
+
+    vTotTrib += (e.quantity * e.unitPrice * product.ibptTax)
 
     return {
       nItem: (i + 1).toString(),
@@ -53,6 +56,8 @@ export const getDet = async (items: ISaleItem[], interStateSale: boolean) => {
       }
     }
   })
+
+  return { det, vTotTrib: vTotTrib.toFixed(2) }
 }
 
 export const getAccessKey = (cUF: string, cnpj: string, nNF: number, cNF: string) => {

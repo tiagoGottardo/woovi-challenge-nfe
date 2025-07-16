@@ -2,7 +2,7 @@ import { nfe, NFeAutorizacaoLoteInput } from "../examples/autorizacao";
 import { ParameterizedContext } from "koa";
 import Sale from "../models/Sale";
 import Company from "../models/Company";
-import { getAccessKey, getDet } from "../utils";
+import { getAccessKey, getDetAndVTotTrib } from "../utils";
 
 const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body
@@ -28,6 +28,8 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   }
 
   const { fullKey, cDV } = accessKey
+
+  const { det, vTotTrib } = await getDetAndVTotTrib(sale.items, sale.buyerUF == company.address.uf)
 
   const args: NFeAutorizacaoLoteInput = {
     nfeDadosMsg: {
@@ -79,13 +81,13 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
               IE: company.stateSubscription,
               CRT: '1'
             },
-            det: await getDet(sale.items, sale.buyerUF == company.address.uf),
+            det,
             total: {
               ICMSTot: {
                 vProd: sale.totalAmount.toFixed(2),
                 vFrete: sale.freightCost.toFixed(2),
                 vNF: (sale.totalAmount + sale.freightCost).toFixed(2),
-                vTotTrib: '0.00' // TODO: Do this with ncm table
+                vTotTrib
               }
             },
             transp: { modFrete: '9' },

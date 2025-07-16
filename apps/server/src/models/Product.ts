@@ -7,6 +7,7 @@ interface IProduct extends Document {
   ncm: string;
   price: number;
   unitOfMeasure: "KG" | "UN" | "MT";
+  ibptTax: number;
   createdAt: Date;
 }
 
@@ -17,7 +18,8 @@ const ProductSchema: Schema = new Schema({
   ncm: { type: String, required: true },
   price: { type: Number, required: true },
   unitOfMeasure: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
+  ibptTax: { type: Number, required: true },
+  createdAt: { type: Date, default: Date.now }
 });
 
 const Product = mongoose.model<IProduct>("Product", ProductSchema);
