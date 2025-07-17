@@ -80,7 +80,6 @@ export const getAccessKey = (cUF: string, cnpj: string, nNF: number, cNF: string
     '1' +
     cNFf;
 
-  console.log(first43Digits)
   if (first43Digits.length !== 43) return null
 
   let sum = 0;
@@ -99,7 +98,7 @@ export const getAccessKey = (cUF: string, cnpj: string, nNF: number, cNF: string
   if (cDV === 10 || cDV === 11) { cDV = 0; }
 
   return {
-    fullKey: first43Digits + cDV,
+    fullKey: first43Digits + cDV.toString(),
     cDV: cDV.toString()
   }
 }

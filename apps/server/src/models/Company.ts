@@ -15,8 +15,8 @@ interface ICompany extends Document {
   cnpj: string;
   address: Address;
   nfceSerie: number;
-  certificate?: string;
-  danfe_emails: string[];
+  certificatePass?: string;
+  danfeEmails: string[];
   phone: string;
   stateSubscription: string;
   taxRegime: "Simples Nacional";
@@ -39,8 +39,8 @@ const CompanySchema: Schema = new Schema({
   cnpj: { type: String, required: true, unique: true },
   address: { type: AddressSchema, required: true },
   nfceSerie: { type: Number, required: true, default: 0 },
-  certificate: { type: String },
-  danfe_emails: [{ type: String, default: [] }],
+  certificatePass: { type: String },
+  danfeEmails: [{ type: String, default: [] }],
   phone: { type: String, required: true },
   stateSubscription: { type: String, required: true },
   taxRegime: { type: String, required: true, enum: ["Simples Nacional"] },
