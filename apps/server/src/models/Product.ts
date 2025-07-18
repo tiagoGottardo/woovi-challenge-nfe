@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose"
 
 interface IProduct extends Document {
   companyId: Schema.Types.ObjectId;
@@ -20,8 +20,8 @@ const ProductSchema: Schema = new Schema({
   unitOfMeasure: { type: String, required: true },
   ibptTax: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now }
-});
+})
 
-const Product = mongoose.model<IProduct>("Product", ProductSchema);
+const Product = mongoose.model<IProduct>("Product", ProductSchema)
 
-export default Product;
+export default Product

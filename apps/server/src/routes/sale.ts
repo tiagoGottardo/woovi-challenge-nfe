@@ -1,15 +1,15 @@
-import { ParameterizedContext } from "koa";
-import Sale from "../models/Sale";
-import { SaleZodSchema } from "../zod/saleZodSchema";
-import Product from "../models/Product";
-import Company from "../models/Company";
-import { generateQrCode } from "../utils";
+import { ParameterizedContext } from "koa"
+import Sale from "../models/Sale"
+import { SaleZodSchema } from "../zod/saleZodSchema"
+import Product from "../models/Product"
+import Company from "../models/Company"
+import { generateQrCode } from "../utils/nfe"
 
 const saleRoute = async (ctx: ParameterizedContext) => {
   const parseResult = SaleZodSchema.safeParse(ctx.request.body)
 
   if (parseResult.error) {
-    ctx.status = 400;
+    ctx.status = 400
     ctx.body = {
       message: 'Sale could not be registered.',
       errors: parseResult.error.issues.map(i => i.message)
@@ -20,9 +20,9 @@ const saleRoute = async (ctx: ParameterizedContext) => {
 
   const { companyId, freightCost, buyerUF, pixKey, ...rest } = ctx.request.body
 
-  const company = await Company.findOne({ _id: companyId });
+  const company = await Company.findOne({ _id: companyId })
   if (!company) {
-    ctx.status = 400;
+    ctx.status = 400
     ctx.body = { message: 'Sale could not be registered.' }
 
     return
@@ -40,7 +40,7 @@ const saleRoute = async (ctx: ParameterizedContext) => {
       return item
     }))
   } catch ({ message }: any) {
-    ctx.status = 400;
+    ctx.status = 400
     ctx.body = { message }
     return
   }

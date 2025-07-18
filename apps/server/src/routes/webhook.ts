@@ -1,11 +1,10 @@
-import { nfe, NFeAutorizacaoLoteInput } from "../examples/autorizacao";
-import { ParameterizedContext } from "koa";
-import Sale from "../models/Sale";
-import * as Minio from 'minio'
-import Company from "../models/Company";
-import { SignedXml } from 'xml-crypto';
-import { getAccessKey, getDetAndVTotTrib } from "../utils";
-import { Builder, parseStringPromise } from "xml2js";
+import { ParameterizedContext } from "koa"
+import { NFeAutorizacaoLoteInput } from "../utils/sefazTypes"
+import Sale from "../models/Sale"
+import Company from "../models/Company"
+import { getAccessKey, getDetAndVTotTrib } from "../utils/nfe"
+import { Builder, parseStringPromise } from "xml2js"
+import { emitNFCe, signNfe } from "../utils/nfe"
 
 const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body
@@ -41,10 +40,8 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
       NFe: [
         {
           infNFe: {
-            // $: {
             Id: fullKey,
             versao: '4.00',
-            // },
             ide: {
               cUF: company.address.cityCode.slice(0, 2),
               cNF: company.id,
@@ -52,7 +49,7 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
               mod: '65',
               serie: '1',
               nNF: company.nfceSerie,
-              dhEmi: (new Date(Date.now()).toString()),
+              dhEmi: (new Date(requestBody.doneAt || Date.now()).toString()),
               tpNF: '1',
               idDest: '1',
               cMunFG: company.address.cityCode,
@@ -107,57 +104,30 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
         }
       ]
     }
-  };
+  }
 
-  const xmlString = (new Builder()).buildObject({ NFe: nfeInput.nfeDadosMsg.NFe[0] });
+  const xmlString = (new Builder()).buildObject({ NFe: nfeInput.nfeDadosMsg.NFe[0] })
   const xmlSignedString = await signNfe(company.id, xmlString)
 
   const xmlSigned = await parseStringPromise(xmlSignedString, {
     explicitCharkey: false,
     mergeAttrs: true,
-  });
-
-  const url = 'https://localhost:3000/ws/nfeautorizacao?wsdl';
+  })
 
   nfeInput.nfeDadosMsg.NFe[0].infNFe = xmlSigned.NFe.infNFe[0]
   nfeInput.nfeDadosMsg.NFe[0].Signature = xmlSigned.NFe.Signature[0]
 
-  const result = await nfe(url, xmlSigned)
+  const url = 'https://localhost:3000/ws/nfeautorizacao?wsdl'
+  // const url = `https://nfe.sefaz.${company.address.uf}.gov.br/nfe/services/nfeautorizacao?wsdl`
 
-  console.log(result)
+  const result = await emitNFCe(url, nfeInput, company.id)
+
+  // Do something with result...
+  // console.log(result)
 
   ctx.status = 200
 }
 
 export {
   pixWebhookRoute
-}
-
-async function signNfe(companyId: string, xml: string): Promise<string> {
-  const minioClient = new Minio.Client({
-    endPoint: 'localhost',
-    port: 9000,
-    useSSL: false,
-    accessKey: 'minioadmin',
-    secretKey: 'minioadmin'
-  });
-
-  const certificate = (await minioClient.getObject('certificates', `${companyId}-cert.pem`)).read() as Buffer
-  const privateKey = (await minioClient.getObject('certificates', `${companyId}-key.pem`)).read() as Buffer
-
-  const sig = new SignedXml({ privateKey });
-  sig.publicCert = certificate
-  sig.addReference({
-    xpath: "//*[local-name(.)='infNFe']",
-    digestAlgorithm: "http://www.w3.org/2000/09/xmldsig#sha1",
-    transforms: ["http://www.w3.org/2000/09/xmldsig#enveloped-signature", "http://www.w3.org/2001/10/xml-exc-c14n#"],
-  });
-
-  sig.canonicalizationAlgorithm = "http://www.w3.org/2001/10/xml-exc-c14n#";
-
-  sig.signatureAlgorithm = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-
-  sig.computeSignature(xml);
-
-  return sig.getSignedXml();
 }

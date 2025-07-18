@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose"
 
 export interface ISaleItem extends Document {
   productId: mongoose.Schema.Types.ObjectId;
@@ -24,7 +24,7 @@ const SaleItemSchema: Schema = new Schema({
   quantity: { type: Number, required: true },
   unitPrice: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
-}, { _id: false });
+}, { _id: false })
 
 const SaleSchema: Schema = new Schema({
   companyId: { type: mongoose.Schema.Types.ObjectId, ref: "Company", required: true },
@@ -36,13 +36,13 @@ const SaleSchema: Schema = new Schema({
   status: { type: String, enum: ["pending", "approved", "rejected", "canceled"], default: "pending" },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-});
+})
 
 SaleSchema.pre("save", function(next) {
-  this.updatedAt = new Date();
-  next();
-});
+  this.updatedAt = new Date()
+  next()
+})
 
-const Sale = mongoose.model<ISale>("Sale", SaleSchema);
+const Sale = mongoose.model<ISale>("Sale", SaleSchema)
 
-export default Sale;
+export default Sale

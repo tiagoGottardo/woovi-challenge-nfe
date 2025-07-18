@@ -1,11 +1,11 @@
-import Router from "@koa/router";
-import { companyRoute } from "./company/company";
-import { certificateRoute } from "./company/certificate";
-import { productRoute } from "./product";
-import { saleRoute } from "./sale";
-import { pixWebhookRoute } from "./webhook";
+import Router from "@koa/router"
+import { companyRoute } from "./company/company"
+import { certificateRoute } from "./company/certificate"
+import { productRoute } from "./product"
+import { saleRoute } from "./sale"
+import { pixWebhookRoute } from "./webhook"
 
-const router = new Router();
+const router = new Router()
 
 router.post('/company', companyRoute)
 router.post('/certificate/:id', certificateRoute)
