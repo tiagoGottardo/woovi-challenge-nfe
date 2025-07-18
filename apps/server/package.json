@@ -10,20 +10,27 @@
   "license": "MIT",
   "dependencies": {
     "@koa/router": "^13.1.0",
-    "axios": "^1.10.0",
     "dotenv": "^17.0.1",
     "koa": "^3.0.0",
     "koa-body": "^6.0.1",
+    "minio": "^8.0.5",
     "mongoose": "^8.16.1",
-    "p12-pem": "^1.0.5",
+    "pem": "^1.14.8",
+    "qrcode": "^1.5.4",
     "soap": "^1.1.12",
+    "xml-crypto": "^6.1.2",
     "xml2js": "^0.6.2",
     "zod": "^3.25.74"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
+    "@types/formidable": "^3.4.5",
     "@types/koa": "^2.15.0",
     "@types/koa__router": "^12.0.4",
+    "@types/minio": "^7.1.1",
+    "@types/pem": "^1.14.4",
+    "@types/qrcode": "^1.5.5",
+    "@types/xml-crypto": "^1.4.6",
     "@types/xml2js": "^0.4.14",
     "tsc-watch": "^7.1.1"
   }

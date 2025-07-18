@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="NFeDistribuicaoDFeService"
+  targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"
+  xmlns:nfe="http://www.portalfiscal.inf.br/nfe"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.portalfiscal.inf.br/nfe">
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"
+        schemaLocation="../xsd/distDFeInt_v1.01.xsd" />
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"
+        schemaLocation="../xsd/retDistDFeInt_v1.01.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="nfeDistDFeInteresseRequest">
+    <wsdl:part name="nfeDadosMsg" element="nfe:distDFeInt" />
+  </wsdl:message>
+  <wsdl:message name="nfeDistDFeInteresseResponse">
+    <wsdl:part name="nfeResultMsg" element="nfe:retDistDFeInt" />
+  </wsdl:message>
+
+  <wsdl:portType name="NFeDistribuicaoDFePortType">
+    <wsdl:operation name="nfeDistDFeInteresse">
+      <wsdl:input message="tns:nfeDistDFeInteresseRequest" />
+      <wsdl:output message="tns:nfeDistDFeInteresseResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="NFeDistribuicaoDFeSoapBinding" type="tns:NFeDistribuicaoDFePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="nfeDistDFeInteresse">
+      <soap:operation
+        soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe/nfeDistDFeInteresse" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="NFeDistribuicaoDFeService">
+    <wsdl:port name="NFeDistribuicaoDFePort" binding="tns:NFeDistribuicaoDFeSoapBinding">
+      <soap:address
+        location="https://localhost:3000/ws/nfedistdfeinteresse" />
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

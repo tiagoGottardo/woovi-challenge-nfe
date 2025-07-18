@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="NFeAutorizacaoService"
+  targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao"
+  xmlns:nfe="http://www.portalfiscal.inf.br/nfe"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.portalfiscal.inf.br/nfe">
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"
+        schemaLocation="../xsd/enviNFe_v4.00.xsd" />
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"
+        schemaLocation="../xsd/retEnviNFe_v4.00.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="nfeAutorizacaoLoteRequest">
+    <wsdl:part name="nfeDadosMsg" element="nfe:enviNFe" />
+  </wsdl:message>
+  <wsdl:message name="nfeAutorizacaoLoteResponse">
+    <wsdl:part name="nfeResultMsg" element="nfe:retEnviNFe" />
+  </wsdl:message>
+
+  <wsdl:portType name="NFeAutorizacaoPortType">
+    <wsdl:operation name="nfeAutorizacaoLote">
+      <wsdl:input message="tns:nfeAutorizacaoLoteRequest" />
+      <wsdl:output message="tns:nfeAutorizacaoLoteResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="NFeAutorizacaoSoapBinding" type="tns:NFeAutorizacaoPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="nfeAutorizacaoLote">
+      <soap:operation
+        soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao/nfeAutorizacaoLote" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="NFeAutorizacaoService">
+    <wsdl:port name="NFeAutorizacaoPort" binding="tns:NFeAutorizacaoSoapBinding">
+      <soap:address location="https://localhost:3000/ws/nfeautorizacao" />
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

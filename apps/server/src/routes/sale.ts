@@ -1,22 +1,32 @@
-import { ParameterizedContext } from "koa";
-import Sale from "../schemas/Sale";
-import { saleZodSchema } from "../zod/saleZodSchema";
-import Product from "../schemas/Product";
+import { ParameterizedContext } from "koa"
+import Sale from "../models/Sale"
+import { SaleZodSchema } from "../zod/saleZodSchema"
+import Product from "../models/Product"
+import Company from "../models/Company"
+import { generateQrCode } from "../utils/nfe"
 
 const saleRoute = async (ctx: ParameterizedContext) => {
-  const parseResult = saleZodSchema.safeParse(ctx.request.body)
+  const parseResult = SaleZodSchema.safeParse(ctx.request.body)
 
   if (parseResult.error) {
-    ctx.status = 400;
+    ctx.status = 400
     ctx.body = {
-      message: 'Product could not be registered.',
+      message: 'Sale could not be registered.',
       errors: parseResult.error.issues.map(i => i.message)
     }
 
     return
   }
 
-  const { companyId, pixKey, ...rest } = ctx.request.body
+  const { companyId, freightCost, buyerUF, pixKey, ...rest } = ctx.request.body
+
+  const company = await Company.findOne({ _id: companyId })
+  if (!company) {
+    ctx.status = 400
+    ctx.body = { message: 'Sale could not be registered.' }
+
+    return
+  }
 
   try {
     rest.items = await Promise.all(rest.items.map(async (item: any) => {
@@ -30,7 +40,7 @@ const saleRoute = async (ctx: ParameterizedContext) => {
       return item
     }))
   } catch ({ message }: any) {
-    ctx.status = 400;
+    ctx.status = 400
     ctx.body = { message }
     return
   }
@@ -39,6 +49,8 @@ const saleRoute = async (ctx: ParameterizedContext) => {
 
   const sale = new Sale({
     companyId,
+    buyerUF,
+    freightCost,
     items: rest.items,
     totalAmount,
     pixKey
@@ -46,8 +58,13 @@ const saleRoute = async (ctx: ParameterizedContext) => {
 
   sale.save()
 
-  ctx.status = 201
-  ctx.body = { message: 'Sale registered successfully', sale }
+  const pixRequest = await generateQrCode(pixKey, totalAmount, company.address.city, company.name)
+
+  ctx.status = 200
+  ctx.body = {
+    message: 'Sale registered successfully',
+    data: pixRequest
+  }
 }
 
 export { saleRoute }
