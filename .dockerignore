@@ -1,2 +1,14 @@
+# Git
+.git
+.gitignore
+
+# Local Environment
+.env
+.env.local
+.DS_Store
+
+# Node
 node_modules
+
+# Build output (handled by multi-stage build)
 dist

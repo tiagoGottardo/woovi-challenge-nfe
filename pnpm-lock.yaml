@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      tsc:
-        specifier: ^2.0.4
-        version: 2.0.4
     devDependencies:
       '@types/node':
         specifier: ^24.0.4
@@ -118,6 +114,9 @@ importers:
       soap:
         specifier: ^1.1.12
         version: 1.1.12
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
       xml-crypto:
         specifier: ^6.1.2
         version: 6.1.2
@@ -161,9 +160,6 @@ importers:
       tsc-watch:
         specifier: ^7.1.1
         version: 7.1.1(typescript@5.8.3)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
 packages:
 
@@ -1482,10 +1478,6 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: '*'
-
-  tsc@2.0.4:
-    resolution: {integrity: sha512-fzoSieZI5KKJVBYGvwbVZs/J5za84f2lSTLPYf6AGiIf43tZ3GNrI1QzTLcjtyDDP4aLxd46RTZq1nQxe7+k5Q==}
-    hasBin: true
 
   tsscmp@1.0.6:
     resolution: {integrity: sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==}
@@ -3039,8 +3031,6 @@ snapshots:
       ps-tree: 1.2.0
       string-argv: 0.3.2
       typescript: 5.8.3
-
-  tsc@2.0.4: {}
 
   tsscmp@1.0.6: {}
 
