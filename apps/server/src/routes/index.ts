@@ -1,6 +1,6 @@
 import Router from "@koa/router"
-import { companyRoute } from "./company/company"
-import { certificateRoute } from "./company/certificate"
+import { companyRoute } from "./company"
+import { certificateRoute } from "./certificate"
 import { productRoute } from "./product"
 import { saleRoute } from "./sale"
 import { pixWebhookRoute } from "./webhook"

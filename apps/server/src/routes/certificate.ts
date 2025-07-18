@@ -2,8 +2,8 @@ import fs from 'fs'
 import pem from 'pem'
 import { ParameterizedContext } from "koa"
 import formidable from 'formidable'
-import Company from '../../models/Company'
-import { getMinioClient } from '../../config'
+import Company from '../models/Company'
+import { getMinioClient } from '../config'
 
 const certificateRoute = async (ctx: ParameterizedContext) => {
   const companyId = ctx.params.id
