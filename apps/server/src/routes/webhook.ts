@@ -5,6 +5,7 @@ import Company from "../models/Company"
 import { getAccessKey, getDetAndVTotTrib } from "../utils/nfe"
 import { Builder, parseStringPromise } from "xml2js"
 import { emitNFCe, signNfe } from "../utils/nfe"
+import { version } from '../../package.json'
 
 const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body
@@ -61,7 +62,7 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
               indFinal: '1',
               indPres: '1',
               procEmi: '0',
-              verProc: 'WOOVI_V1.0', // TODO: Change to env variable
+              verProc: version,
               idCSC: '1',
               CSC: company.csc
             },
