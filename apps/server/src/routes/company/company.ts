@@ -28,10 +28,15 @@ const companyRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  (new Company(requestBody)).save()
+  const company = new Company(requestBody)
+
+  company.save()
 
   ctx.status = 201
-  ctx.body = { message: 'Company registered successfully' }
+  ctx.body = {
+    message: 'Company registered successfully',
+    data: company
+  }
 }
 
 export { companyRoute }

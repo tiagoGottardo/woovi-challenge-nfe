@@ -78,6 +78,7 @@ const getPemFiles = (filepath: string, p12Password: string): Promise<{ cert: str
 
   return new Promise((resolve, _) => {
     pem.readPkcs12(pfxBuffer, { p12Password }, (err, { cert, key }) => {
+      if (err) console.log(err)
       if (err || !cert || !key) return resolve(null)
       resolve({ cert, key })
     })
