@@ -1,7 +1,7 @@
 import { ParameterizedContext } from "koa"
 import Company from "../models/Company"
 
-const companyRoute = async (ctx: ParameterizedContext) => {
+export const companyRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body
 
   const oneUser = await Company.findOne({ cnpj: requestBody.cnpj })
@@ -15,15 +15,13 @@ const companyRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const company = new Company(requestBody)
-
-  company.save()
+  const { _id: id } = await (new Company(requestBody)).save()
 
   ctx.status = 201
   ctx.body = {
     message: 'Company registered successfully',
-    data: company
+    data: {
+      id
+    }
   }
 }
-
-export { companyRoute }

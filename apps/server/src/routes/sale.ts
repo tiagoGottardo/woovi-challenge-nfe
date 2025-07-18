@@ -34,16 +34,14 @@ const saleRoute = async (ctx: ParameterizedContext) => {
 
   const totalAmount = rest.items.reduce((acc: any, item: any) => acc + item.totalPrice, 0)
 
-  const sale = new Sale({
+  const { _id: id } = await (new Sale({
     companyId,
     buyerUF,
     freightCost,
     items: rest.items,
     totalAmount,
     pixKey
-  })
-
-  sale.save()
+  })).save()
 
   const pixRequest = await generateQrCode(pixKey, totalAmount, company.address.city, company.name)
 
@@ -51,7 +49,8 @@ const saleRoute = async (ctx: ParameterizedContext) => {
   ctx.body = {
     message: 'Sale registered successfully',
     data: {
-      sale, pixRequest
+      sale: { id },
+      pixRequest
     }
   }
 }

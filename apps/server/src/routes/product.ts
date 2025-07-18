@@ -24,14 +24,14 @@ const productRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
-  const product = new Product(requestBody)
-
-  product.save()
+  const { _id: id } = await (new Product(requestBody)).save()
 
   ctx.status = 201
   ctx.body = {
     message: 'Product registered successfully',
-    data: product
+    data: {
+      id
+    }
   }
 }
 
