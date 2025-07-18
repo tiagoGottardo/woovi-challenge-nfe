@@ -63,7 +63,9 @@ const saleRoute = async (ctx: ParameterizedContext) => {
   ctx.status = 200
   ctx.body = {
     message: 'Sale registered successfully',
-    data: pixRequest
+    data: {
+      sale, pixRequest
+    }
   }
 }
 
