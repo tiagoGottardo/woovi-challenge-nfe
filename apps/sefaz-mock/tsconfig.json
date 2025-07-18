@@ -1,8 +1,23 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "esModuleInterop": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "target": "es2022",
+    "module": "commonjs",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@repo/nfe/*": [
+        "./apps/sefaz-mock/src/*"
+      ],
+      "@repo/server/*": [
+        "./apps/server/src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts"

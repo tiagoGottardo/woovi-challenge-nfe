@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  sefaz-mock:
+    build:
+      context: ./apps/sefaz-mock
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/sefaz-mock:/usr/src/app
+      - /usr/src/app/node_modules
+
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/challenge
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    depends_on:
+      - mongo
+      - minio
+    volumes:
+      - ./apps/server:/usr/src/app
+      - /usr/src/app/node_modules
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  mongo-data:
+  minio-data:
