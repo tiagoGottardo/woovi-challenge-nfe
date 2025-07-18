@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pnpm tsc --build",
+    "build": "pnpm tsc",
     "start": "node dist/server.js",
     "dev": "tsc-watch --onSuccess \"pnpx ts-node src/server.ts\""
   },

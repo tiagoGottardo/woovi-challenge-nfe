@@ -1,17 +1,19 @@
 import * as Minio from 'minio'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import path from 'path'
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
 
-dotenv.config()
+dotenv.config({ path: path.resolve(__dirname, '..', '..', '..', '.env') })
 
 export const config = {
   MINIO_ENDPOINT: process.env.MINIO_ENDPOINT || 'localhost',
   MINIO_PORT: parseInt(process.env.MINIO_PORT || '9000'),
   MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY || 'minioadmin',
   MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || 'minioadmin',
-  PORT: parseInt(process.env.PORT || "4000"),
+  PORT: parseInt(process.env.PORT || '4000'),
+  SEFAZ_PORT: parseInt(process.env.PORT || '3000'),
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/challenge'
 }
 

@@ -6,7 +6,7 @@ import * as soap from 'soap'
 import { webServices } from "./services/"
 import app from "./app"
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.SEFAZ_PORT || 3000
 
 const httpsOptions: https.ServerOptions = {
   requestCert: true,

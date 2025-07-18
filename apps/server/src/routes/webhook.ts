@@ -5,6 +5,7 @@ import Company from "../models/Company"
 import { getAccessKey, getDetAndVTotTrib } from "../utils/nfe"
 import { Builder, parseStringPromise } from "xml2js"
 import { emitNFCe, signNfe } from "../utils/nfe"
+import { config } from "../config"
 import { version } from '../../package.json'
 
 const pixWebhookRoute = async (ctx: ParameterizedContext) => {
@@ -118,13 +119,15 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   nfeInput.nfeDadosMsg.NFe[0].infNFe = xmlSigned.NFe.infNFe[0]
   nfeInput.nfeDadosMsg.NFe[0].Signature = xmlSigned.NFe.Signature[0]
 
-  const url = 'https://localhost:3000/ws/nfeautorizacao?wsdl'
+  console.log("NFe Input to Sefaz: ", nfeInput)
+
+  const url = `https://localhost:${config.SEFAZ_PORT}/ws/nfeautorizacao?wsdl`
   // const url = `https://nfe.sefaz.${company.address.uf}.gov.br/nfe/services/nfeautorizacao?wsdl`
 
   const result = await emitNFCe(url, nfeInput, company.id)
 
   // Do something with result...
-  // console.log(result)
+  console.log("Sefaz Output:", result)
 
   ctx.status = 200
 }

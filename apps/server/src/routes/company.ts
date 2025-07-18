@@ -1,6 +1,6 @@
 import { ParameterizedContext } from "koa"
-import Company from "../../models/Company"
-import { CompanyZodSchema } from "../../zod/companyZodSchema"
+import Company from "../models/Company"
+import { CompanyZodSchema } from "../zod/companyZodSchema"
 
 const companyRoute = async (ctx: ParameterizedContext) => {
   const requestBody = ctx.request.body
