@@ -1,14 +1,10 @@
-import path, { join, resolve } from 'path'
+import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 import * as https from 'https'
 import * as soap from 'soap'
 
 import { webServices } from "./services/"
 import app from "./app"
-
-import dotenv from 'dotenv'
-
-dotenv.config({ path: path.resolve(__dirname, '..', '..', '..', '.env') })
 
 const PORT = process.env.SEFAZ_PORT || 3000
 

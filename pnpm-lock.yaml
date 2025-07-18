@@ -15,6 +15,9 @@ importers:
       '@types/node':
         specifier: ^24.0.4
         version: 24.0.4
+      dotenv:
+        specifier: ^17.2.0
+        version: 17.2.0
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@24.0.4)(typescript@5.8.3)
@@ -76,6 +79,9 @@ importers:
       '@types/koa__router':
         specifier: ^12.0.4
         version: 12.0.4
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.0.14
       '@types/xml2js':
         specifier: ^0.4.14
         version: 0.4.14
@@ -295,6 +301,9 @@ packages:
   '@types/minio@7.1.1':
     resolution: {integrity: sha512-B7OWB7JwIxVBxypiS3gA96gaK4yo2UknGdqmuQsTccZZ/ABiQ2F3fTe9lZIXL6ZuN23l+mWIC3J4CefKNyWjxA==}
     deprecated: This is a stub types definition. minio provides its own type definitions, so you do not need this installed.
+
+  '@types/node@24.0.14':
+    resolution: {integrity: sha512-4zXMWD91vBLGRtHK3YbIoFMia+1nqEz72coM42C5ETjnNCa/heoj7NT1G67iAfOqMmcfhuCZ4uNpyz8EjlAejw==}
 
   '@types/node@24.0.4':
     resolution: {integrity: sha512-ulyqAkrhnuNq9pB76DRBTkcS6YsmDALy6Ua63V8OhrOBgbcYt6IOdzpw5P1+dyRIyMerzLkeYWBeOXPpA9GMAA==}
@@ -590,6 +599,10 @@ packages:
 
   dotenv@17.0.1:
     resolution: {integrity: sha512-GLjkduuAL7IMJg/ZnOPm9AnWKJ82mSE2tzXLaJ/6hD6DhwGfZaXG77oB8qbReyiczNxnbxQKyh0OE5mXq0bAHA==}
+    engines: {node: '>=12'}
+
+  dotenv@17.2.0:
+    resolution: {integrity: sha512-Q4sgBT60gzd0BB0lSyYD3xM4YxrXA9y4uBDof1JNYGzOXrQdQ6yX+7XIAqoFOGQFOTK1D3Hts5OllpxMDZFONQ==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -1695,21 +1708,21 @@ snapshots:
 
   '@types/accepts@1.3.7':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/co-body@6.1.3':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
       '@types/qs': 6.14.0
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/content-disposition@0.5.9': {}
 
@@ -1718,15 +1731,15 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/express': 5.0.3
       '@types/keygrip': 1.0.6
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/dotenv@8.2.3':
     dependencies:
-      dotenv: 17.0.1
+      dotenv: 17.2.0
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.5
@@ -1739,11 +1752,11 @@ snapshots:
 
   '@types/formidable@2.0.6':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/formidable@3.4.5':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/http-assert@1.5.6': {}
 
@@ -1777,7 +1790,7 @@ snapshots:
       '@types/http-errors': 2.0.5
       '@types/keygrip': 1.0.6
       '@types/koa-compose': 3.2.8
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/koa__router@12.0.4':
     dependencies:
@@ -1789,17 +1802,21 @@ snapshots:
     dependencies:
       minio: 8.0.5
 
+  '@types/node@24.0.14':
+    dependencies:
+      undici-types: 7.8.0
+
   '@types/node@24.0.4':
     dependencies:
       undici-types: 7.8.0
 
   '@types/pem@1.14.4':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/qrcode@1.5.5':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/qs@6.14.0': {}
 
@@ -1808,12 +1825,12 @@ snapshots:
   '@types/send@0.17.5':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@types/serve-static@1.15.8':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
       '@types/send': 0.17.5
 
   '@types/webidl-conversions@7.0.3': {}
@@ -1824,12 +1841,12 @@ snapshots:
 
   '@types/xml-crypto@1.4.6':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
       xpath: 0.0.27
 
   '@types/xml2js@0.4.14':
     dependencies:
-      '@types/node': 24.0.4
+      '@types/node': 24.0.14
 
   '@xmldom/is-dom-node@1.0.1': {}
 
@@ -2072,6 +2089,8 @@ snapshots:
   dijkstrajs@1.0.3: {}
 
   dotenv@17.0.1: {}
+
+  dotenv@17.2.0: {}
 
   dunder-proto@1.0.1:
     dependencies:
