@@ -15,6 +15,7 @@ services:
     ports:
       - "4000:4000"
     environment:
+      - SEFAZ_MOCK_URI=https://sefaz-mock:3000
       - MONGO_URI=mongodb://mongo:27017/challenge
       - MINIO_ENDPOINT=minio
       - MINIO_PORT=9000
