@@ -121,7 +121,7 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
 
   console.log("NFe Input to Sefaz: ", nfeInput)
 
-  const url = `${config.SEFAZ_MOCK_URI}/ws/nfeautorizacao?wsdl`
+  const url = `https://${config.SEFAZ_MOCK_URI}/ws/nfeautorizacao?wsdl`
   // const url = `https://nfe.sefaz.${company.address.uf}.gov.br/nfe/services/nfeautorizacao?wsdl`
 
   const result = await emitNFCe(url, nfeInput, company.id)
