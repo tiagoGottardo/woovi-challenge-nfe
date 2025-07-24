@@ -11,9 +11,10 @@ COPY pnpm-lock.yaml ./
 
 RUN npm install -g pnpm
 
+COPY . .
+
 RUN pnpm install
 
-COPY . .
 
 RUN pnpm build
 
