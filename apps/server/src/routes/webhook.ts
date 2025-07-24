@@ -18,6 +18,12 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
     return
   }
 
+  if (sale.status !== "pending") {
+    ctx.status = 409
+    ctx.body = { message: "Sale already processed!" }
+    return
+  }
+
   const company = await Company.findOne({ _id: sale.companyId })
   if (!company) {
     ctx.status = 400
@@ -125,6 +131,11 @@ const pixWebhookRoute = async (ctx: ParameterizedContext) => {
   // const url = `https://nfe.sefaz.${company.address.uf}.gov.br/nfe/services/nfeautorizacao?wsdl`
 
   const result = await emitNFCe(url, nfeInput, company.id)
+
+  if (result?.cStat == '103') {
+    sale.status = "approved"
+    await sale.save()
+  }
 
   // Do something with result...
   console.log("Sefaz Output:", result)
