@@ -39,7 +39,7 @@ app.use(async (ctx, next) => {
     if (parseResult.error) {
       ctx.status = 400
       ctx.body = {
-        message: 'Company could not be registered.',
+        message: `Wrong request for ${ctx.path}.`,
         errors: parseResult.error.issues.map(i => i.message)
       }
 
